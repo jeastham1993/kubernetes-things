@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job # jobs differ from pods in that they allow the launch of one or more pods to execute a specific task and then shutdown
+metadata:
+  name: hello-world-job
+spec:
+  # The number of completions specify how many times the job will launch, when one job finishes the next one is launched
+  completions: 10
+  # Allows jobs to run in parallel
+  parallelism: 5
+  # Job will terminate after N seconds no matter what happens
+  activeDeadlineSeconds: 60
+  # Default, K8s tries to reluanch a failing pod 6 times during 6 min after failure. backoffLimit changes that
+  backoffLimit: 3 
+  template:
+    metadata:
+      name: hello-world-job
+    spec:
+      restartPolicy: OnFailure #Never or OnFailure
+      containers:
+      - name: hello-world-container
+        image: busybox
+        command: ["/bin/sh", "-c"]
+        args: ["echo 'Hello, world'"]

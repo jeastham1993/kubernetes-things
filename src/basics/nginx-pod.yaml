@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+  # annotations allow additional contextual metadata to be added. Support email to contact for an outage etc.
+  annotations:
+    tier: webserver 
+  # Labels help build relationships between pods and can be used with kubectl to query all pods with a given label
+  labels:
+    name: nginx-pod
+    tier: backend
+    environment: prod
+    team: blue-team
+spec:
+  containers:
+  - name: nginx-container
+    image: nginx:latest
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"  
