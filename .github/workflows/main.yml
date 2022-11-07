@@ -42,7 +42,6 @@ jobs:
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
         ECR_REGISTRY: ${{secrets.ECR_REGISTRY}}
-        ECR_REPOSITORY: asp-net-app
         IMAGE_TAG: ${{ github.sha }}
       with:
-        args: set image deployment/asp-net-app-github asp-net-app=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        args: set image deployment/asp-net-app-github asp-net-app=$ECR_REGISTRY/asp-net-app:$IMAGE_TAG
