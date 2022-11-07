@@ -85,7 +85,7 @@ resource "aws_kms_key" "eks" {
 
 resource "aws_ecr_repository" "asp_net_app_repo" {
   name                 = "asp-net-app"
-  image_tag_mutability = "IMMUTABLE"
+  image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
     scan_on_push = true

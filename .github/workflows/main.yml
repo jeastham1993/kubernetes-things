@@ -38,10 +38,11 @@ jobs:
       env:
         ECR_REGISTRY: ${{ secrets.REGISTRY_NAME }}
         ECR_REPOSITORY: ${{ secrets.REPO_NAME }}
+        ECR_IMAGE_TAG: ${{ secrets.ECR_IMAGE_TAG }}
         IMAGE_TAG: "latest"
       run: |
         # Build a docker container and push it to ECR 
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./src/sample-application/AspNetInAction/
+        docker build -t $ECR_IMAGE_TAG:$IMAGE_TAG ./src/sample-application/AspNetInAction/
         echo "Pushing image to ECR..."
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push $ECR_IMAGE_TAG:$IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG/
