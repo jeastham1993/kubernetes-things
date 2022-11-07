@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: asp-net-app-github
+  labels:
+    app: asp-net-app
+spec:
+  selector:
+    matchLabels:
+        app: asp-net-app
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: asp-net-app
+    spec:
+      containers:
+        - name: asp-net-app
+          image: 720766170633.dkr.ecr.us-east-2.amazonaws.com/octopus-underwater-app:latest
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          imagePullPolicy: Always

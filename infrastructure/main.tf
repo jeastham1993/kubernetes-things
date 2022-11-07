@@ -7,7 +7,7 @@ module "eks" {
   version = "~> 18.0"
 
   cluster_name    = "kubernetes-things"
-  cluster_version = "1.22"
+  cluster_version = "1.23"
 
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = true
@@ -81,4 +81,13 @@ resource "aws_kms_key" "eks" {
   description             = "EKS Secret Encryption Key"
   deletion_window_in_days = 7
   enable_key_rotation     = true
+}
+
+resource "aws_ecr_repository" "asp_net_app_repo" {
+  name                 = "asp-net-app"
+  image_tag_mutability = "IMMUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
 }

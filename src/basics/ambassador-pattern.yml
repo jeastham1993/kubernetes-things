@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+  annotations:
+    tier: webserver 
+  labels:
+    name: nginx-pod
+    tier: backend
+    environment: prod
+    team: blue-team
+spec:
+  containers:
+  # Container acting as a MySQL proxy
+  - name: my-sql-proxy-ambassador-container
+    image: mysql-proxy:latest
+    ports:
+      - containerPort: 3306
+    env:
+    - name: DB_HOST
+      value: 'host_name_goes_here'
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"  
+  - name: nginx-container
+    image: nginx:latest
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"  
