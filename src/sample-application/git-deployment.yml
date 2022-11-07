@@ -18,8 +18,12 @@ spec:
     spec:
       containers:
         - name: asp-net-app
-          image: 720766170633.dkr.ecr.us-east-2.amazonaws.com/octopus-underwater-app:latest
+          image: 521936459218.dkr.ecr.eu-west-1.amazonaws.com/asp-net-app:latest
           ports:
             - containerPort: 80
               protocol: TCP
           imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"  

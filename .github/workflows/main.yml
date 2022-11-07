@@ -15,10 +15,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # - name: Install Octopus CLI
-    #   uses: OctopusDeploy/install-octopus-cli-action@v1.1.1
-    #   with:
-    #       version: latest
     - name: Checkout
       uses: actions/checkout@v2
 
@@ -38,5 +34,5 @@ jobs:
       run: |
         # Build a docker container and push it to ECR 
         docker build -t asp-net-app ./src/sample-application/AspNetInAction/
-        docker tag asp-net-app:latest 521936459218.dkr.ecr.eu-west-1.amazonaws.com/asp-net-app:latest
-        docker push 521936459218.dkr.ecr.eu-west-1.amazonaws.com/asp-net-app:latest
+        docker tag asp-net-app:latest ${{secrets.ECR_REGISTRY}}/asp-net-app:latest
+        docker push ${{secrets.ECR_REGISTRY}}/asp-net-app:latest
