@@ -5,6 +5,8 @@ builder.Services.AddLogging();
 WebApplication app = builder.Build();
 app.UseStatusCodePages();
 
+app.MapGet("/health", () => "Healthy");
+
 // Create a route group on the API, adding an endpoint filter to all routes.
 var fruitApiRouteBuilder = app.MapGroup("/fruit")
     .AddEndpointFilter<LoggingFilter>();
