@@ -34,7 +34,7 @@ jobs:
       run: |
         # Build a docker container and push it to ECR 
         docker build -t asp-net-app ./src/sample-application/AspNetInAction/
-        docker tag asp-net-app:${{ github.sha }} ${{secrets.ECR_REGISTRY}}/asp-net-app:${{ github.sha }}
+        docker tag asp-net-app:latest ${{secrets.ECR_REGISTRY}}/asp-net-app:${{ github.sha }}
         docker push ${{secrets.ECR_REGISTRY}}/asp-net-app:${{ github.sha }}
 
     - name: Deploy to Kubernetes cluster                                                                            
