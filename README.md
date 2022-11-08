@@ -1,5 +1,7 @@
 # Kubernetes All The Things
 
+[![AWS EKS Deploy](https://github.com/jeastham1993/kubernetes-things/actions/workflows/main.yml/badge.svg)](https://github.com/jeastham1993/kubernetes-things/actions/workflows/main.yml)
+
 I'm finally taking the plunge and diving deeper into the weird and wonderful world of Kubernetes. This repository is a collation of my work through [The Kubernetes Bible]() as well as any other things I end up trying in the K8s ecosystem.
 
 ## Contents
