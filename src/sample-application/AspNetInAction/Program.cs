@@ -1,4 +1,11 @@
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+// If running in Kubernetes configmap is mounted through a volume to the /config folder
+if (File.Exists("./config/appsettings.json"))
+{
+    builder.Configuration.AddJsonFile("./config/appsettings.json");
+}
+
 builder.Services.AddProblemDetails();
 builder.Services.AddLogging();
 

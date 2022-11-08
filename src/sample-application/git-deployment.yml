@@ -33,4 +33,4 @@ spec:
               cpu: "500m"
           volumeMounts:
             - name: configuration-volume
-              mountPath: /
+              mountPath: /config
