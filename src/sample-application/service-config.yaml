@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: asp-net-app-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: asp-net-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

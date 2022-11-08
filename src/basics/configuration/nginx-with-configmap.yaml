@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-with-config-map
+spec:
+  volumes:
+    - name: configuration-volume
+      configMap:
+        name: my-config-map
+  containers:
+  - name: nginx-with-config-map
+    image: nginx:latest
+    # Can set environment vars both from an entire configmap or with a specific property
+    # envFrom:
+    #   - configMapRef:
+    #       name: my-config-map
+    # env:
+    #   - name: COLOR
+    #     valueFrom:
+    #       configMapKeyRef:
+    #         name: my-config-map
+    #         key: color
+    volumeMounts:
+      - name: configuration-volume
+        mountPath: /
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"

@@ -33,9 +33,9 @@ jobs:
       id: build-image
       run: |
         # Build a docker container and push it to ECR 
-        docker build -t asp-net-app ./src/sample-application/AspNetInAction/
-        docker tag asp-net-app:latest ${{secrets.ECR_REGISTRY}}/asp-net-app:${{ github.sha }}
-        docker push ${{secrets.ECR_REGISTRY}}/asp-net-app:${{ github.sha }}
+        docker build -t asp-net-app-repo ./src/sample-application/AspNetInAction/
+        docker tag asp-net-app-repo:latest ${{secrets.ECR_REGISTRY}}/asp-net-app-repo:${{ github.sha }}
+        docker push ${{secrets.ECR_REGISTRY}}/asp-net-app-repo:${{ github.sha }}
 
     - name: Deploy to Kubernetes cluster                                                                            
       uses: kodermax/kubectl-aws-eks@master
@@ -44,4 +44,4 @@ jobs:
         ECR_REGISTRY: ${{secrets.ECR_REGISTRY}}
         IMAGE_TAG: ${{ github.sha }}
       with:
-        args: set image deployment/asp-net-app-github asp-net-app=$ECR_REGISTRY/asp-net-app:$IMAGE_TAG
+        args: set image deployment/asp-net-app-repo-github asp-net-app-repo=$ECR_REGISTRY/asp-net-app-repo:$IMAGE_TAG

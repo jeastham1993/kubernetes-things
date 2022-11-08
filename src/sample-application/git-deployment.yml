@@ -1,13 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: asp-net-app-github
+  name: asp-net-app-repo-github
   labels:
-    app: asp-net-app
+    app: asp-net-app-repo
 spec:
   selector:
     matchLabels:
-        app: asp-net-app
+        app: asp-net-app-repo
   replicas: 3
   strategy:
     type: RollingUpdate
@@ -21,8 +21,8 @@ spec:
           configMap:
             name: asp-net-sample-config
       containers:
-        - name: asp-net-app
-          image: 521936459218.dkr.ecr.eu-west-1.amazonaws.com/asp-net-app:latest
+        - name: asp-net-app-repo
+          image: 521936459218.dkr.ecr.eu-west-1.amazonaws.com/asp-net-app-repo:latest
           ports:
             - containerPort: 80
               protocol: TCP

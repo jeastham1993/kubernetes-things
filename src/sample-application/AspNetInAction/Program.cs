@@ -16,6 +16,7 @@ var config = app.Services.GetRequiredService<IConfiguration>();
 
 app.MapGet("/health", () => "Healthy");
 app.MapGet("/config", () => config["ApiResponseValue"]);
+app.MapGet("/secret-test", () => Environment.GetEnvironmentVariable("DB_PASSWORD"));
 
 // Create a route group on the API, adding an endpoint filter to all routes.
 var fruitApiRouteBuilder = app.MapGroup("/fruit")

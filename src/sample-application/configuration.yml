@@ -22,4 +22,3 @@ metadata:
 type: Qpaque # Tells K8s that this is unstructued data, alternatives could be ServiceAccount or ImagePullSecret
 data:
   db_password: bXktc3VwZXItc2VjcmV0LWRiLXBhc3N3b3Jk
-    

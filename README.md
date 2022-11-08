@@ -8,3 +8,5 @@ I'm finally taking the plunge and diving deeper into the weird and wonderful wor
 - [basics](./src/basics/): Basic K8s templates for deploying
     - Pods
     - Jobs
+
+[Installing AWS Load Balancer Controller](https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html)
