@@ -31,6 +31,13 @@ spec:
             limits:
               memory: "128Mi"
               cpu: "500m"
+          env:
+          - name: "DB_PASSWORD"
+            valueFrom:
+              secretKeyRef:
+                name: application-secrets
+                key: db_password
           volumeMounts:
             - name: configuration-volume
-              mountPath: /config
+              mountPath: /app/appsettings.k8s.json
+              subPath: appsettings.k8s.json
