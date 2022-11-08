@@ -14,12 +14,14 @@ app.UseStatusCodePages();
 
 var config = app.Services.GetRequiredService<IConfiguration>();
 
-app.MapGet("/health", () => "Look, I'm healthy!!!");
+app.MapGet("/health", () => "I'm healthy!!!");
+
 app.MapGet("/pod-details", () => new {
     podName = Environment.GetEnvironmentVariable("POD_NAME"),
     podNamespace = Environment.GetEnvironmentVariable("POD_NAMESPACE"),
     podIp = Environment.GetEnvironmentVariable("POD_IP")
 });
+
 app.MapGet("/config", () => config["ApiResponseValue"]);
 app.MapGet("/secret-test", () => Environment.GetEnvironmentVariable("DB_PASSWORD"));
 
