@@ -5,7 +5,10 @@ builder.Services.AddLogging();
 WebApplication app = builder.Build();
 app.UseStatusCodePages();
 
+var config = app.Services.GetRequiredService<IConfiguration>();
+
 app.MapGet("/health", () => "Healthy");
+app.MapGet("/config", () => config["ApiResponseValue"]);
 
 // Create a route group on the API, adding an endpoint filter to all routes.
 var fruitApiRouteBuilder = app.MapGroup("/fruit")

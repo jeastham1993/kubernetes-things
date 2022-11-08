@@ -16,6 +16,10 @@ spec:
       labels:
         app: asp-net-app
     spec:
+      volumes:
+        - name: configuration-volume
+          configMap:
+            name: asp-net-sample-config
       containers:
         - name: asp-net-app
           image: 521936459218.dkr.ecr.eu-west-1.amazonaws.com/asp-net-app:latest
@@ -26,4 +30,7 @@ spec:
           resources:
             limits:
               memory: "128Mi"
-              cpu: "500m"  
+              cpu: "500m"
+          volumeMounts:
+            - name: configuration-volume
+              mountPath: /
