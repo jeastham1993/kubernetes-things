@@ -14,7 +14,7 @@ spec:
   template:
     metadata:
       labels:
-        app: asp-net-app
+        app: asp-net-app-repo
     spec:
       volumes:
         - name: configuration-volume
@@ -22,7 +22,7 @@ spec:
             name: asp-net-sample-config
       containers:
         - name: asp-net-app-repo
-          image: 521936459218.dkr.ecr.eu-west-1.amazonaws.com/asp-net-app-repo:latest
+          image: 521936459218.dkr.ecr.eu-west-1.amazonaws.com/asp-net-app-repo:b9a04506e8811f2c68a279564b2c549ab32953b0
           ports:
             - containerPort: 80
               protocol: TCP
@@ -41,3 +41,40 @@ spec:
             - name: configuration-volume
               mountPath: /app/appsettings.k8s.json
               subPath: appsettings.k8s.json
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: asp-net-app-repo
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb-ip
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+spec:
+  selector:
+    app: asp-net-app-repo
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+  type: LoadBalancer
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: asp-net-app-external-ingress
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/subnets: subnet-06431605ddac01890,subnet-00aeb92cf435a6a63
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: asp-net-app-repo
+                port:
+                  number: 80
