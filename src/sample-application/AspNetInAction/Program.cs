@@ -14,7 +14,7 @@ app.UseStatusCodePages();
 
 var config = app.Services.GetRequiredService<IConfiguration>();
 
-app.MapGet("/health", () => "Healthy");
+app.MapGet("/health", () => "Look, I'm healthy!!!");
 app.MapGet("/config", () => config["ApiResponseValue"]);
 app.MapGet("/secret-test", () => Environment.GetEnvironmentVariable("DB_PASSWORD"));
 
