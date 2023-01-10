@@ -4,7 +4,15 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <PublishTrimmed>true</PublishTrimmed>
+    <PublishAot>true</PublishAot>
+    <StripSymbols>true</StripSymbols>
+    <AssemblyName>bootstrap</AssemblyName>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <TrimMode>full</TrimMode>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Amazon.Lambda.AspNetCoreServer.Hosting" Version="1.5.0" />
+  </ItemGroup>
 
 </Project>

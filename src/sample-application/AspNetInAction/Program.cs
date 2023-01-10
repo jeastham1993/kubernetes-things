@@ -1,3 +1,7 @@
+using System.Text.Json;
+using Amazon.Lambda.Serialization.SystemTextJson;
+using AspNetInAction;
+
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // If running in Kubernetes configmap is mounted through a volume to the /config folder
@@ -5,6 +9,16 @@ if (File.Exists("./appsettings.k8s.json"))
 {
     builder.Configuration.AddJsonFile("./appsettings.k8s.json");
 }
+
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.AddContext<ApiSerializerContext>();
+});
+
+builder.Services.AddAWSLambdaHosting(LambdaEventSource.HttpApi, options =>
+{
+    options.Serializer = new SourceGeneratorLambdaJsonSerializer<ApiSerializerContext>();
+});
 
 builder.Services.AddProblemDetails();
 builder.Services.AddLogging();
@@ -29,7 +43,7 @@ app.MapGet("/secret-test", () => Environment.GetEnvironmentVariable("DB_PASSWORD
 var fruitApiRouteBuilder = app.MapGroup("/fruit")
     .AddEndpointFilter<LoggingFilter>();
 
-fruitApiRouteBuilder.MapGet("/", async () => await Handlers.GetAllFruits());
+fruitApiRouteBuilder.MapGet("/", () => Handlers.GetAllFruits());
 
 // Create an additional route group builder that implements validation of the id parameter
 var fruitApiWithValidation = fruitApiRouteBuilder
@@ -46,7 +60,7 @@ fruitApiWithValidation.MapDelete("/{id}", Handlers.DeleteFruit);
 
 app.Run();
 
-record Fruit(string Name, int Stock)
+public record Fruit(string Name, int Stock)
 {
     public static readonly Dictionary<string, Fruit> All = new();
 };
@@ -57,7 +71,8 @@ class IdValidationFilter : IEndpointFilter
         EndpointFilterInvocationContext context,
         EndpointFilterDelegate next)
     {
-        var id = context.GetArgument<string>(0);
+        var id = context.HttpContext.Request.RouteValues["id"].ToString();
+        
         if (string.IsNullOrEmpty(id) || !id.StartsWith('f'))
         {
             return Results.ValidationProblem(
@@ -91,15 +106,15 @@ class LoggingFilter : IEndpointFilter
 
 class Handlers
 {
-    public static async Task<Dictionary<string, Fruit>> GetAllFruits()
+    public static IResult GetAllFruits()
     {
-        return Fruit.All;
+        return Results.Ok(Fruit.All);
     }
 
     public static IResult GetFruit(string id)
     {
         return Fruit.All.TryGetValue(id, out var fruit)
-            ? TypedResults.Ok(fruit)
+            ? Results.Ok(fruit)
             : Results.Problem(statusCode: 404, detail: "This fruit does not exist", title: "Missing Fruit");
     }
 
@@ -108,7 +123,7 @@ class Handlers
         Fruit.All[id] = fruit;
     }
 
-    public static void AddFruit(string id, Fruit fruit)
+    public static async Task AddFruit(string id, Fruit fruit)
     {
         Fruit.All.Add(id, fruit);
     }
